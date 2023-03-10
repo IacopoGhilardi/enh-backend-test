@@ -3,7 +3,6 @@ const router = express.Router();
 import * as cityController from '../controllers/cityController';
 
 
-router.get("/", cityController.show);
-
+router.get("/:city_name", cityController.show);
 
 export default router;
