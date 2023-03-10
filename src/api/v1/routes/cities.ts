@@ -1,12 +1,9 @@
 import express from 'express';
 const router = express.Router();
+import * as cityController from '../controllers/cityController';
 
-router.get("/", (req, res) => {
 
-    res.status(200).json({
-        "result": true,
-    })
-})
+router.get("/", cityController.show);
 
 
 export default router;
