@@ -2,11 +2,11 @@ import City from "../api/v1/interfaces/city";
 
 const cities: City[] = [
     {
-        "name": "New York",
-        "country": "U.S.A.",
+        "name": "Pisa",
+        "country": "Italy",
         "code": "NYC",
-        "lat": "41.902782",
-        "lon": "12.496366"
+        "lat": "43.716667",
+        "lon": "10.400000"
     },
     {
         "name": "Rome",
@@ -19,22 +19,22 @@ const cities: City[] = [
         "name": "Milan",
         "country": "Italy",
         "code": "Mi",
-        "lat": "41.902782",
-        "lon": "12.496366"
+        "lat": "45.464664",
+        "lon": "9.188540"
     },
     {
         "name": "Turin",
         "country": "Italy",
         "code": "To",
-        "lat": "41.902782",
-        "lon": "12.496366"
+        "lat": "45.116177",
+        "lon": "7.742615"
     },    
     {
         "name": "Bologna",
         "country": "Italy",
         "code": "Bo",
-        "lat": "41.902782",
-        "lon": "12.496366"
+        "lat": "44.498955",
+        "lon": "11.327591"
     }
 ]
 

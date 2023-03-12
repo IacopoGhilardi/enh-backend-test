@@ -1,38 +1,47 @@
 import { Request, Response } from "express";
 import axios from "axios";
 import * as dotenv from 'dotenv';
+import * as citiesService from '../services/citiesService';
+import logger from "../../../utils/logger";
+import cities from "../../../config/cities";
+import City from "../interfaces/city";
 dotenv.config()
 
-export async function show(req: Request, res: Response) {    
+export async function getCityWeather(req: Request, res: Response) {
 
     try {
-        // const wresponse = await axios.get(`https://api.openweathermap.org/data/3.0/onecall`, {
-        //     params: {
-        //         apiid: process.env.OW_KEY,
-        //         lon: '94.04',
-        //         lat: '33.44'
-        //     }
-        // })
+        const cityName: string = req.params.city_name;
+        const city = getCityFromName(cityName);
 
-        const response = await axios.get('https://api.yelp.com/v3/businesses/search', {
-            headers: {
-                'Authorization': `Bearer ${process.env.YELP_KEY}`,
-            },
-            params: {
-                'location': 'Pisa',
-                limit: '20'
-            }
-        });
+        if (!city) {
+            logger.error("City not found")
+            return res.status(400).json({
+                "error": "City not found"
+            })
+        }
+
+        let weatherResponse = await citiesService.getCityWeather(city.lat, city.lon);        
+        const businessesResponse = await citiesService.getCityBusinesses(cityName);
+        weatherResponse.data.businesses = businessesResponse.data.businesses;
         
         return res.status(200).json({
-            "res": response.data
+            "data": weatherResponse.data
         })   
     } catch (error) {
-
+        logger.error("Error getting info: " + error);
         return res.status(400).json({
-            "err": error
+            "error": error
         })
         
     }
     
+}
+
+const getCityFromName = (cityName: string): City | undefined => {
+    logger.info("Finding information about: " + cityName);    
+    let city = cities.find(city => {
+        return city.name.toLowerCase() == cityName.toLowerCase();
+    });
+
+    return city;
 }
