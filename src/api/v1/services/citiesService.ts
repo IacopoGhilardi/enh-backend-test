@@ -1,12 +1,10 @@
 import axios, { AxiosPromise, AxiosStatic } from "axios"
-import * as dotenv from 'dotenv';
-dotenv.config()
-
+import config from 'config';
 
 export async function getCityWeather(latitude: string, longitude: string): Promise<AxiosPromise> {
-    const weatherResponse = await axios.get(`https://api.openweathermap.org/data/3.0/onecall`, {
+    const weatherResponse = await axios.get(config.get('open_weather.base_url'), {
         params: {
-            appid: process.env.OW_KEY,
+            appid: config.get('open_weather.key'),
             lat: latitude,
             lon: longitude,
             exclude: 'hourly,minutely,daily'
@@ -17,9 +15,9 @@ export async function getCityWeather(latitude: string, longitude: string): Promi
 }
 
 export async function getCityBusinesses(cityName: string, limit = '20'): Promise<AxiosPromise> {
-        const response = await axios.get('https://api.yelp.com/v3/businesses/search', {
+        const response = await axios.get(config.get('yelp.base_url'), {
             headers: {
-                'Authorization': `Bearer ${process.env.YELP_KEY}`,
+                'Authorization': `Bearer ${config.get('yelp.key')}`,
             },
             params: {
                 'location': cityName,

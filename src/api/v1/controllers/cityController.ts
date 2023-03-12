@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
-import axios from "axios";
-import * as dotenv from 'dotenv';
 import * as citiesService from '../services/citiesService';
 import logger from "../../../utils/logger";
 import cities from "../../../config/cities";
 import City from "../interfaces/city";
-dotenv.config()
 
 export async function getCityWeather(req: Request, res: Response) {
 
@@ -28,7 +25,7 @@ export async function getCityWeather(req: Request, res: Response) {
             "data": weatherResponse.data
         })   
     } catch (error) {
-        logger.error("Error getting info: " + error);
+        logger.error("Error getting city's infos: " + error);
         return res.status(400).json({
             "error": error
         })
@@ -38,7 +35,7 @@ export async function getCityWeather(req: Request, res: Response) {
 }
 
 const getCityFromName = (cityName: string): City | undefined => {
-    logger.info("Finding information about: " + cityName);    
+    logger.info("Getting information about: " + cityName);
     let city = cities.find(city => {
         return city.name.toLowerCase() == cityName.toLowerCase();
     });
