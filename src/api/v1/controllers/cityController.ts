@@ -20,12 +20,19 @@ export async function getCityWeather(req: Request, res: Response) {
         let weatherResponse = await citiesService.getCityWeather(city.lat, city.lon);        
         const businessesResponse = await citiesService.getCityBusinesses(cityName);
         weatherResponse.data.businesses = businessesResponse.data.businesses;
+
+        let cityResponse = {
+            ...city,
+            'weather': weatherResponse.data
+        };
         
         return res.status(200).json({
-            "data": weatherResponse.data
-        })   
+            "data": cityResponse
+        });
+
     } catch (error) {
         logger.error("Error getting city's infos: " + error);
+        
         return res.status(400).json({
             "error": error
         })
